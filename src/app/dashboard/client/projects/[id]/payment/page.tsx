@@ -129,7 +129,7 @@ export default function ClientPaymentPage() {
             </div>
             <div className={styles.amountBox}>
               <p>Total due</p>
-              <h3>₹{amount}</h3>
+              <h3>${amount}</h3>
             </div>
             {message && <p className={styles.notice}>{message}</p>}
             <button className={styles.primaryButton} onClick={handlePayment} disabled={loading}>

@@ -84,6 +84,38 @@
   color: var(--color-text-secondary);
 }
 
+.helpText {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+.fileList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.fileItem {
+  padding: 0.35rem 0.6rem;
+  background: var(--color-surface-alt, #f5f5f7);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.uploadButton {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: var(--shadow-xs);
+  margin-bottom: 0.6rem;
+}
+
 .formActions {
   margin-top: var(--spacing-md);
   display: flex;

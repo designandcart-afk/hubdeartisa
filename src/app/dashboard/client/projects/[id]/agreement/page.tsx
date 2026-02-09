@@ -15,6 +15,8 @@ export default function ClientAgreementPage() {
   const [agreementId, setAgreementId] = useState<string | null>(null);
   const [checked, setChecked] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [summary, setSummary] = useState<{ title: string; amount: number; timeline: number } | null>(null);
+  const currencySymbol = '$';
 
   useEffect(() => {
     const loadAgreement = async () => {
@@ -35,9 +37,14 @@ export default function ClientAgreementPage() {
         .eq('id', project.selected_quote_id)
         .single();
 
-      const text = `Agreement Summary\n\nProject: ${project.title}\nSelected Quote: ₹${quote?.amount || 0}\nTimeline: ${quote?.timeline_days || 0} days\n\nTerms:\n1. De'Artisa Hub will mediate payments and release funds after client approval.\n2. Artist will deliver milestones on agreed timeline.\n3. Client agrees to provide timely feedback.\n4. All communications should happen through the platform.\n5. Any dispute will be handled by De'Artisa Hub mediation.`;
+      const text = `Agreement Summary\n\nProject: ${project.title}\nSelected Quote: ${currencySymbol}${quote?.amount || 0}\nTimeline: ${quote?.timeline_days || 0} days\n\nTerms:\n1. De'Artisa Hub will mediate payments and release funds after client approval.\n2. Artist will deliver milestones on agreed timeline.\n3. Client agrees to provide timely feedback.\n4. All communications should happen through the platform.\n5. Any dispute will be handled by De'Artisa Hub mediation.`;
 
       setAgreementText(text);
+      setSummary({
+        title: project.title,
+        amount: quote?.amount || 0,
+        timeline: quote?.timeline_days || 0,
+      });
 
       const { data: existingAgreement } = await supabase
         .from('project_agreements')
@@ -146,7 +153,32 @@ export default function ClientAgreementPage() {
       <section className={styles.section}>
         <div className="container">
           <div className={styles.card}>
-            <pre className={styles.agreementText}>{agreementText || 'Preparing agreement...'}</pre>
+            <div className={styles.summaryGrid}>
+              <div className={styles.summaryItem}>
+                <span>Project</span>
+                <strong>{summary?.title || 'Loading...'}</strong>
+              </div>
+              <div className={styles.summaryItem}>
+                <span>Agreed Budget</span>
+                <strong>{currencySymbol}{summary?.amount ?? 0}</strong>
+              </div>
+              <div className={styles.summaryItem}>
+                <span>Timeline</span>
+                <strong>{summary?.timeline ?? 0} days</strong>
+              </div>
+            </div>
+
+            <div className={styles.termsCard}>
+              <h3>Agreement Terms</h3>
+              <ul>
+                <li>De’Artisa Hub will mediate payments and release funds after client approval.</li>
+                <li>Artist will deliver milestones on the agreed timeline.</li>
+                <li>Client agrees to provide timely feedback.</li>
+                <li>All communications must stay on the platform.</li>
+                <li>Disputes are handled through De’Artisa Hub mediation.</li>
+              </ul>
+            </div>
+
             <label className={styles.checkboxRow}>
               <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} />
               I agree to the terms above.

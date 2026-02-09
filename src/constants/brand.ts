@@ -48,6 +48,8 @@ export const ROUTES = {
   clientProjectQuotes: (id: string) => `/dashboard/client/projects/${id}/quotes`,
   clientProjectAgreement: (id: string) => `/dashboard/client/projects/${id}/agreement`,
   clientProjectPayment: (id: string) => `/dashboard/client/projects/${id}/payment`,
+  clientProjectMessages: (id: string) => `/dashboard/client/projects/${id}/messages`,
   jobDetail: (id: string) => `/jobs/${id}`,
   artistAgreement: (id: string) => `/dashboard/artist/jobs/${id}/agreement`,
+  artistJobMessages: (id: string) => `/dashboard/artist/jobs/${id}/messages`,
 };

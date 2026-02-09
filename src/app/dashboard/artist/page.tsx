@@ -140,7 +140,7 @@ export default function ArtistDashboardPage() {
         status: project.status === 'assigned' ? 'Pending Review' : project.status.replace('_', ' '),
         progress: statusProgress[project.status] ?? 20,
         due: project.deadline || 'Flexible',
-        budget: `₹${project.budget_min || 0} - ₹${project.budget_max || 0}`,
+        budget: `$${project.budget_max || 0}`,
         client: clientMap.get(project.client_id) || 'Client',
         accent: accentPalette[index % accentPalette.length],
       }));
@@ -153,7 +153,7 @@ export default function ArtistDashboardPage() {
       });
       setStats([
         { label: 'Active Jobs', value: String(jobs.length), change: 'Assigned to you' },
-        { label: 'Total Earnings', value: `₹${paidTotal}`, change: 'Paid by clients' },
+        { label: 'Total Earnings', value: `$${paidTotal}`, change: 'Paid by clients' },
         { label: 'Job Success', value: `${successRate}%`, change: 'Completed projects' },
         { label: 'New Leads', value: String(openProjects?.length || 0), change: 'Open briefs' },
       ]);
@@ -450,15 +450,15 @@ export default function ArtistDashboardPage() {
                 <h3 className={styles.sideTitle}>Earnings Snapshot</h3>
                 <div className={styles.snapshotItem}>
                   <span>Available balance</span>
-                  <strong>₹{earningsSnapshot.available}</strong>
+                  <strong>${earningsSnapshot.available}</strong>
                 </div>
                 <div className={styles.snapshotItem}>
                   <span>In escrow</span>
-                  <strong>₹{earningsSnapshot.escrow}</strong>
+                  <strong>${earningsSnapshot.escrow}</strong>
                 </div>
                 <div className={styles.snapshotItem}>
                   <span>Pending payouts</span>
-                  <strong>₹{earningsSnapshot.pending}</strong>
+                  <strong>${earningsSnapshot.pending}</strong>
                 </div>
               </div>
 

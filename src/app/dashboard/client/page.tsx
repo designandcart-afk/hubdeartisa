@@ -98,7 +98,7 @@ export default function ClientDashboardPage() {
         status: project.status.replace('_', ' ').toUpperCase(),
         progress: statusProgress[project.status] ?? 30,
         due: project.deadline || 'Flexible',
-        budget: `₹${project.budget_min || 0} - ₹${project.budget_max || 0}`,
+        budget: `$${project.budget_max || 0}`,
         artists: quotesByProject.get(project.id) || 0,
         category: project.category || 'General',
         accent: accentPalette[index % accentPalette.length],

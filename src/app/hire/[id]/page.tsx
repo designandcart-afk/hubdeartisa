@@ -293,7 +293,7 @@ export default function HirePage() {
                 <div className={styles.infoList}>
                   <div className={styles.infoItem}>
                     <span className={styles.infoLabel}>Hourly Rate</span>
-                    <span className={styles.infoValue}>₹{visualizer.min_rate || 0} - ₹{visualizer.max_rate || 0}</span>
+                    <span className={styles.infoValue}>${visualizer.max_rate || 0}</span>
                   </div>
                   <div className={styles.infoItem}>
                     <span className={styles.infoLabel}>Experience</span>

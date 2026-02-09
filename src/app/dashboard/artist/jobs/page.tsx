@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '@/components/Layout/Layout';
 import { supabase } from '@/lib/supabase';
+import { ROUTES } from '@/constants/brand';
 import styles from './page.module.css';
 
 export default function ArtistActiveJobsPage() {
@@ -72,6 +73,12 @@ export default function ArtistActiveJobsPage() {
                     onClick={() => (window.location.href = `/dashboard/artist/jobs/${job.id}/agreement`)}
                   >
                     View Agreement
+                  </button>
+                  <button
+                    className={styles.ghostButton}
+                    onClick={() => (window.location.href = ROUTES.artistJobMessages(job.id))}
+                  >
+                    Messages
                   </button>
                 </div>
               </div>

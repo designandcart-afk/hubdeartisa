@@ -27,6 +27,17 @@
   line-height: 1.7;
 }
 
+.messageButton {
+  margin-top: var(--spacing-sm);
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: var(--shadow-xs);
+}
+
 .section {
   padding: var(--spacing-xl) 0;
 }
@@ -53,6 +64,35 @@
   gap: var(--spacing-md);
 }
 
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-sm);
+}
+
+.quoteBadge {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  background: var(--color-surface-muted);
+}
+
+.quoteMain {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
 .quoteArtist {
   font-size: 1rem;
   color: var(--color-text-secondary);
@@ -73,6 +113,44 @@
   color: var(--color-text-secondary);
   font-size: 0.95rem;
   line-height: 1.6;
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: var(--spacing-sm);
+}
+
+.quoteNotes h4 {
+  margin: 0 0 0.4rem;
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+}
+
+.serviceList {
+  background: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: var(--spacing-sm);
+}
+
+.serviceList h4 {
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+}
+
+.serviceList ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.downloadLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .cardActions {

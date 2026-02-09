@@ -246,6 +246,11 @@ END $$;
 CREATE INDEX IF NOT EXISTS idx_project_quotes_project_id ON project_quotes(project_id);
 CREATE INDEX IF NOT EXISTS idx_project_quotes_artist_id ON project_quotes(artist_id);
 
+-- Project quote service breakdown + PDF
+ALTER TABLE project_quotes ADD COLUMN IF NOT EXISTS services JSONB DEFAULT '[]';
+ALTER TABLE project_quotes ADD COLUMN IF NOT EXISTS pdf_url TEXT;
+ALTER TABLE project_quotes ADD COLUMN IF NOT EXISTS terms_accepted_at TIMESTAMP WITH TIME ZONE;
+
 -- Agreements
 CREATE TABLE IF NOT EXISTS project_agreements (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -375,3 +380,48 @@ BEGIN
 END $$;
 
 CREATE INDEX IF NOT EXISTS idx_notifications_user_id ON notifications(user_id);
+
+-- Project messages (in-app chat)
+CREATE TABLE IF NOT EXISTS project_messages (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  project_id UUID REFERENCES projects(id) ON DELETE CASCADE,
+  sender_user_id UUID NOT NULL,
+  sender_role TEXT NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE project_messages ENABLE ROW LEVEL SECURITY;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE policyname = 'Participants can view project messages'
+  ) THEN
+    CREATE POLICY "Participants can view project messages"
+      ON project_messages FOR SELECT
+      USING (
+        auth.uid() IN (
+          SELECT user_id FROM client_profiles WHERE client_profiles.id = (SELECT client_id FROM projects WHERE projects.id = project_messages.project_id)
+          UNION
+          SELECT user_id FROM artist_profiles WHERE artist_profiles.id = (SELECT selected_artist_id FROM projects WHERE projects.id = project_messages.project_id)
+        )
+      );
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies WHERE policyname = 'Participants can insert project messages'
+  ) THEN
+    CREATE POLICY "Participants can insert project messages"
+      ON project_messages FOR INSERT
+      WITH CHECK (
+        auth.uid() IN (
+          SELECT user_id FROM client_profiles WHERE client_profiles.id = (SELECT client_id FROM projects WHERE projects.id = project_messages.project_id)
+          UNION
+          SELECT user_id FROM artist_profiles WHERE artist_profiles.id = (SELECT selected_artist_id FROM projects WHERE projects.id = project_messages.project_id)
+        )
+      );
+  END IF;
+END $$;
+
+CREATE INDEX IF NOT EXISTS idx_project_messages_project_id ON project_messages(project_id);

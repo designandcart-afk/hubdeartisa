@@ -13,6 +13,8 @@ type Quote = {
   timeline_days: number;
   notes: string | null;
   status: string;
+  services?: Array<{ name: string; rate: number }>;
+  pdf_url?: string | null;
   artist_profiles: Array<{
     id: string;
     full_name: string;
@@ -28,6 +30,7 @@ export default function ClientProjectQuotesPage() {
   const [projectTitle, setProjectTitle] = useState('');
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState<string | null>(null);
+  const currencySymbol = '$';
 
   useEffect(() => {
     const loadQuotes = async () => {
@@ -49,7 +52,7 @@ export default function ClientProjectQuotesPage() {
 
       const { data, error } = await supabase
         .from('project_quotes')
-        .select('id, amount, timeline_days, notes, status, artist_profiles(id, full_name, country)')
+        .select('id, amount, timeline_days, notes, status, services, pdf_url, artist_profiles(id, full_name, country)')
         .eq('project_id', projectId)
         .order('created_at', { ascending: false });
 
@@ -136,6 +139,12 @@ export default function ClientProjectQuotesPage() {
           </button>
           <h1 className={styles.pageTitle}>Quotes for {projectTitle}</h1>
           <p className={styles.pageDescription}>Compare offers and choose your preferred artist.</p>
+          <button
+            className={styles.messageButton}
+            onClick={() => router.push(ROUTES.clientProjectMessages(projectId))}
+          >
+            Open Messages
+          </button>
         </div>
       </div>
 
@@ -155,23 +164,53 @@ export default function ClientProjectQuotesPage() {
               {quotes.map((quote) => {
                 const artist = quote.artist_profiles?.[0];
                 return (
-                <article key={quote.id} className={styles.quoteCard}>
-                  <div>
-                    <p className={styles.quoteArtist}>{artist?.full_name || 'Artist'}</p>
-                    <h3 className={styles.quoteAmount}>₹{quote.amount}</h3>
-                    <p className={styles.quoteMeta}>Timeline: {quote.timeline_days} days</p>
-                    <p className={styles.quoteMeta}>Location: {artist?.country || 'Remote'}</p>
-                    {quote.notes && <p className={styles.quoteNotes}>{quote.notes}</p>}
-                  </div>
-                  <div className={styles.cardActions}>
-                    <button className={styles.primaryButton} onClick={() => handleSelect(quote)}>
-                      Select Artist
-                    </button>
-                    <button className={styles.ghostButton} onClick={() => router.push(ROUTES.clientProjectAgreement(projectId))}>
-                      View Agreement
-                    </button>
-                  </div>
-                </article>
+                  <article key={quote.id} className={styles.quoteCard}>
+                    <div className={styles.cardHeader}>
+                      <div>
+                        <p className={styles.quoteArtist}>{artist?.full_name || 'Artist'}</p>
+                        <p className={styles.quoteMeta}>Location: {artist?.country || 'Remote'}</p>
+                      </div>
+                      <span className={styles.quoteBadge}>{quote.status}</span>
+                    </div>
+                    <div className={styles.quoteMain}>
+                      <h3 className={styles.quoteAmount}>{currencySymbol}{quote.amount}</h3>
+                      <p className={styles.quoteMeta}>Timeline: {quote.timeline_days} days</p>
+                    </div>
+                    {quote.services && quote.services.length > 0 && (
+                      <div className={styles.serviceList}>
+                        <h4>Services</h4>
+                        <ul>
+                          {quote.services.map((service, idx) => (
+                            <li key={`${service.name}-${idx}`}>
+                              {service.name}: {currencySymbol}{service.rate}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {quote.notes && (
+                      <div className={styles.quoteNotes}>
+                        <h4>Artist Notes</h4>
+                        <p>{quote.notes}</p>
+                      </div>
+                    )}
+                    {quote.pdf_url && (
+                      <a className={styles.downloadLink} href={quote.pdf_url} target="_blank" rel="noreferrer">
+                        Download Quote PDF
+                      </a>
+                    )}
+                    <div className={styles.cardActions}>
+                      <button className={styles.primaryButton} onClick={() => handleSelect(quote)}>
+                        Select Artist
+                      </button>
+                      <button
+                        className={styles.ghostButton}
+                        onClick={() => router.push(ROUTES.clientProjectAgreement(projectId))}
+                      >
+                        View Agreement
+                      </button>
+                    </div>
+                  </article>
                 );
               })}
             </div>

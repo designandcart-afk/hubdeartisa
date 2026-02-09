@@ -109,7 +109,7 @@ export default function JobsPage() {
               {projects.map((project) => (
                 <article key={project.id} className={styles.jobCard}>
                   <div>
-                    <p className={styles.jobMeta}>Budget: {project.budget_min} - {project.budget_max}</p>
+                    <p className={styles.jobMeta}>Max Budget: ${project.budget_max}</p>
                     <h3 className={styles.jobTitle}>{project.title}</h3>
                     <p className={styles.jobDescription}>
                       {project.description || 'No description provided yet.'}
