@@ -3,6 +3,7 @@ import styles from './Input.module.css';
 
 interface InputProps {
   label?: string;
+  name?: string;
   type?: string;
   placeholder?: string;
   value?: string;
@@ -15,6 +16,7 @@ interface InputProps {
 
 export default function Input({
   label,
+  name,
   type = 'text',
   placeholder,
   value,
@@ -35,6 +37,7 @@ export default function Input({
       {multiline ? (
         <textarea
           className={`${styles.input} ${styles.textarea} ${error ? styles.error : ''}`}
+          name={name}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
@@ -45,6 +48,7 @@ export default function Input({
         <input
           type={type}
           className={`${styles.input} ${error ? styles.error : ''}`}
+          name={name}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
