@@ -13,11 +13,11 @@ type Quote = {
   timeline_days: number;
   notes: string | null;
   status: string;
-  artist_profiles: {
+  artist_profiles: Array<{
     id: string;
     full_name: string;
     country: string;
-  } | null;
+  }>;
 };
 
 export default function ClientProjectQuotesPage() {
@@ -56,7 +56,11 @@ export default function ClientProjectQuotesPage() {
       if (error) {
         setMessage(error.message);
       } else {
-        setQuotes(data || []);
+        const normalized = (data || []).map((row: any) => ({
+          ...row,
+          artist_profiles: Array.isArray(row.artist_profiles) ? row.artist_profiles : row.artist_profiles ? [row.artist_profiles] : [],
+        }));
+        setQuotes(normalized);
       }
       setLoading(false);
     };
@@ -69,7 +73,8 @@ export default function ClientProjectQuotesPage() {
   const handleSelect = async (quote: Quote) => {
     const { data: sessionData } = await supabase.auth.getSession();
     const userId = sessionData.session?.user?.id;
-    if (!userId || !quote.artist_profiles?.id) {
+    const artistProfile = quote.artist_profiles?.[0];
+    if (!userId || !artistProfile?.id) {
       setMessage('Unable to select this quote yet.');
       return;
     }
@@ -88,7 +93,7 @@ export default function ClientProjectQuotesPage() {
     const { error } = await supabase
       .from('projects')
       .update({
-        selected_artist_id: quote.artist_profiles.id,
+        selected_artist_id: artistProfile.id,
         selected_quote_id: quote.id,
         status: 'assigned',
       })
@@ -99,20 +104,20 @@ export default function ClientProjectQuotesPage() {
       return;
     }
 
-    const { data: artistProfile } = await supabase
+    const { data: artistDetails } = await supabase
       .from('artist_profiles')
       .select('user_id, email, phone')
-      .eq('id', quote.artist_profiles.id)
+      .eq('id', artistProfile.id)
       .single();
 
-    if (artistProfile?.user_id) {
+    if (artistDetails?.user_id) {
       await fetch('/api/notifications/send', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: artistProfile.user_id,
-          email: artistProfile.email,
-          whatsapp: artistProfile.phone,
+          userId: artistDetails.user_id,
+          email: artistDetails.email,
+          whatsapp: artistDetails.phone,
           message: `You have been selected for a project. Please review and accept the agreement in your dashboard.`,
         }),
       });
@@ -147,13 +152,15 @@ export default function ClientProjectQuotesPage() {
                   <p>Artists will appear here once they respond to your brief.</p>
                 </div>
               )}
-              {quotes.map((quote) => (
+              {quotes.map((quote) => {
+                const artist = quote.artist_profiles?.[0];
+                return (
                 <article key={quote.id} className={styles.quoteCard}>
                   <div>
-                    <p className={styles.quoteArtist}>{quote.artist_profiles?.full_name || 'Artist'}</p>
+                    <p className={styles.quoteArtist}>{artist?.full_name || 'Artist'}</p>
                     <h3 className={styles.quoteAmount}>₹{quote.amount}</h3>
                     <p className={styles.quoteMeta}>Timeline: {quote.timeline_days} days</p>
-                    <p className={styles.quoteMeta}>Location: {quote.artist_profiles?.country || 'Remote'}</p>
+                    <p className={styles.quoteMeta}>Location: {artist?.country || 'Remote'}</p>
                     {quote.notes && <p className={styles.quoteNotes}>{quote.notes}</p>}
                   </div>
                   <div className={styles.cardActions}>
@@ -165,7 +172,8 @@ export default function ClientProjectQuotesPage() {
                     </button>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
