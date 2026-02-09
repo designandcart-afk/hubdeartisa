@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       const resend = new Resend(process.env.RESEND_API_KEY);
       tasks.push(
         resend.emails.send({
-          from: 'DeArtisa Hub <noreply@deartisahub.com>',
+          from: 'De’Artisa Hub <noreply@hub.deartisa.com>',
           to: email,
           subject: 'New Project Update',
           text: message,
@@ -37,7 +37,15 @@ export async function POST(request: Request) {
       });
     }
 
-    if (whatsapp && process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN) {
+    const whatsappEnabled = process.env.ENABLE_WHATSAPP === 'true';
+
+    if (
+      whatsappEnabled &&
+      whatsapp &&
+      process.env.TWILIO_ACCOUNT_SID &&
+      process.env.TWILIO_AUTH_TOKEN &&
+      process.env.TWILIO_WHATSAPP_FROM
+    ) {
       const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
       tasks.push(
         client.messages.create({
