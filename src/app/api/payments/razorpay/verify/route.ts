@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 
 export async function POST(request: Request) {
   try {
@@ -16,6 +16,11 @@ export async function POST(request: Request) {
 
     if (expected !== signature) {
       return NextResponse.json({ error: 'Invalid signature.' }, { status: 400 });
+    }
+
+    const supabaseAdmin = getSupabaseAdmin();
+    if (!supabaseAdmin) {
+      return NextResponse.json({ error: 'Supabase admin is not configured.' }, { status: 500 });
     }
 
     await supabaseAdmin

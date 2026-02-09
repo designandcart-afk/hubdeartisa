@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import Razorpay from 'razorpay';
-import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 
 export async function POST(request: Request) {
   try {
@@ -10,7 +10,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing projectId or amount.' }, { status: 400 });
     }
 
-    const clientId = await getClientId(projectId);
+    const supabaseAdmin = getSupabaseAdmin();
+    if (!supabaseAdmin) {
+      return NextResponse.json({ error: 'Supabase admin is not configured.' }, { status: 500 });
+    }
+
+    const clientId = await getClientId(supabaseAdmin, projectId);
     if (!clientId) {
       return NextResponse.json({ error: 'Project client not found.' }, { status: 400 });
     }
@@ -53,7 +58,8 @@ export async function POST(request: Request) {
   }
 }
 
-async function getClientId(projectId: string) {
+async function getClientId(supabaseAdmin: ReturnType<typeof getSupabaseAdmin>, projectId: string) {
+  if (!supabaseAdmin) return null;
   const { data } = await supabaseAdmin
     .from('projects')
     .select('client_id')
