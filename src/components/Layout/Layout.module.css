@@ -1,0 +1,22 @@
+.layoutWrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.mainWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainContent {
+  flex: 1;
+}
+
+/* Desktop: Add left margin for sidebar */
+@media (min-width: 1024px) {
+  .mainWrapper {
+    margin-left: 280px;
+  }
+}

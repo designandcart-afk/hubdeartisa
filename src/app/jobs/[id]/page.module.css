@@ -1,0 +1,132 @@
+.pageHeader {
+  padding: var(--spacing-lg) 0;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xs);
+}
+
+.backButton {
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  margin-bottom: var(--spacing-sm);
+}
+
+.pageTitle {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-sm);
+  text-align: left;
+}
+
+.pageDescription {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  text-align: left;
+  max-width: 800px;
+  line-height: 1.7;
+}
+
+.section {
+  padding: var(--spacing-xl) 0;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--spacing-lg);
+}
+
+.detailsCard,
+.quoteCard {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+  color: var(--color-text-secondary);
+}
+
+.referenceBlock {
+  margin-top: var(--spacing-md);
+}
+
+.referenceBlock h3 {
+  margin-bottom: var(--spacing-sm);
+}
+
+.referenceBlock ul {
+  list-style: none;
+  padding-left: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.referenceBlock a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.input,
+.textarea {
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-family: var(--font-body);
+  background: var(--color-surface);
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.notice {
+  color: var(--color-text-secondary);
+}
+
+.primaryButton {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-xs);
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

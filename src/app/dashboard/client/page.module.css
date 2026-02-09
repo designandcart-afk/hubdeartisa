@@ -1,0 +1,364 @@
+.pageHeader {
+  padding: var(--spacing-lg) 0;
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xs);
+}
+
+.pageTitle {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-sm);
+  text-align: left;
+}
+
+.pageDescription {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  text-align: left;
+  max-width: 800px;
+  line-height: 1.7;
+}
+
+.section {
+  padding: var(--spacing-xl) 0;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.statCard {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-md);
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.05);
+}
+
+.statLabel {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.statValueRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+}
+
+.statValue {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.statChange {
+  font-size: 0.85rem;
+  color: #1f9d68;
+  background: rgba(31, 157, 104, 0.12);
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+}
+
+.mainLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: var(--spacing-xl);
+  align-items: start;
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-lg);
+}
+
+.sectionTitle {
+  margin: 0 0 0.35rem;
+  font-size: 1.75rem;
+}
+
+.sectionSubtitle {
+  margin: 0;
+  color: var(--color-text-secondary);
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filterChip {
+  border: 1px solid var(--color-border);
+  background: #fff;
+  color: var(--color-text-secondary);
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.projectCard {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 160px 1fr;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.08);
+}
+
+.thumbnail {
+  position: relative;
+  padding: var(--spacing-md);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.statusPill {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+}
+
+.statusActive {
+  color: #2563eb;
+}
+
+.statusReview {
+  color: #9333ea;
+}
+
+.statusCompleted {
+  color: #16a34a;
+}
+
+.statusDraft {
+  color: #64748b;
+}
+
+.projectBody {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.projectHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+}
+
+.projectCategory {
+  margin: 0 0 0.25rem;
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+}
+
+.projectTitle {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.projectId {
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.progressTrack {
+  flex: 1;
+  height: 6px;
+  background: var(--color-border-subtle);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-primary);
+  border-radius: inherit;
+}
+
+.progressValue {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+
+.projectMeta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) 0;
+  border-top: 1px solid var(--color-border-subtle);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.metaLabel {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.metaValue {
+  margin: 0.15rem 0 0;
+  font-weight: 600;
+}
+
+.projectActions {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.primaryButton {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ghostButton {
+  background: transparent;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  padding: 0.6rem 1.1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.sidebarCard {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: var(--spacing-md);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.sidebarTitle {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.primaryButtonFull {
+  width: 100%;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.secondaryButtonFull {
+  width: 100%;
+  background: #fff;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  padding: 0.7rem 1.1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.snapshotItem {
+  display: flex;
+  justify-content: space-between;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+}
+
+.snapshotItem strong {
+  color: var(--color-text-primary);
+}
+
+.sidebarList {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--color-text-secondary);
+  display: grid;
+  gap: 0.65rem;
+}
+
+@media (max-width: 1200px) {
+  .mainLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .sidebarCard {
+    flex: 1 1 280px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .projectGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .sectionHeader {
+    flex-direction: column;
+  }
+
+  .statValueRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

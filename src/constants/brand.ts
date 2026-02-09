@@ -1,0 +1,53 @@
+export const BRAND = {
+  colors: {
+    primary: '#092B2F',
+    accent: '#BDAD9D',
+    background: '#FFFFFF',
+    textPrimary: '#092B2F',
+    textSecondary: '#666666',
+    border: '#E5E5E5',
+    borderSubtle: '#F5F5F5',
+  },
+  fonts: {
+    heading: "'Montserrat Alternates', sans-serif",
+    body: "'Inter', sans-serif",
+  },
+  spacing: {
+    xs: '0.5rem',
+    sm: '1rem',
+    md: '2rem',
+    lg: '3rem',
+    xl: '4rem',
+    xxl: '6rem',
+  },
+  breakpoints: {
+    mobile: '768px',
+    tablet: '1024px',
+    desktop: '1200px',
+  },
+};
+
+export const ROUTES = {
+  home: '/',
+  visualizers: '/visualizers',
+  visualizerProfile: (id: string) => `/visualizers/${id}`,
+  hire: (id: string) => `/hire/${id}`,
+  brief: (id: string) => `/hire/${id}/brief`,
+  quote: (id: string) => `/hire/${id}/quote`,
+  payment: (id: string) => `/hire/${id}/payment`,
+  about: '/about',
+  howItWorks: '/how-it-works',
+  getStarted: '/get-started',
+  signIn: '/sign-in',
+  dashboard: '/dashboard',
+  clientDashboard: '/dashboard/client',
+  artistDashboard: '/dashboard/artist',
+  jobs: '/jobs',
+  clientProjects: '/dashboard/client/projects',
+  newClientProject: '/dashboard/client/projects/new',
+  clientProjectQuotes: (id: string) => `/dashboard/client/projects/${id}/quotes`,
+  clientProjectAgreement: (id: string) => `/dashboard/client/projects/${id}/agreement`,
+  clientProjectPayment: (id: string) => `/dashboard/client/projects/${id}/payment`,
+  jobDetail: (id: string) => `/jobs/${id}`,
+  artistAgreement: (id: string) => `/dashboard/artist/jobs/${id}/agreement`,
+};
