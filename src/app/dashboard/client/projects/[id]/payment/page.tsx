@@ -18,6 +18,7 @@ export default function ClientPaymentPage() {
   const router = useRouter();
   const projectId = params?.id as string;
   const [amount, setAmount] = useState(0);
+  const [amountINR, setAmountINR] = useState(0);
   const [projectTitle, setProjectTitle] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -65,6 +66,11 @@ export default function ClientPaymentPage() {
       setMessage(orderData.error || 'Unable to create payment order.');
       setLoading(false);
       return;
+    }
+
+    // Update INR amount for display
+    if (orderData.amountINR) {
+      setAmountINR(orderData.amountINR);
     }
 
     const options = {
@@ -127,9 +133,14 @@ export default function ClientPaymentPage() {
               <p className={styles.label}>Project</p>
               <h2 className={styles.projectTitle}>{projectTitle}</h2>
             </div>
-            <div className={styles.amountBox}>
+          <div className={styles.amountBox}>
               <p>Total due</p>
               <h3>${amount}</h3>
+              {amountINR > 0 && (
+                <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.5rem' }}>
+                  ≈ ₹{amountINR.toLocaleString('en-IN')}
+                </p>
+              )}
             </div>
             {message && <p className={styles.notice}>{message}</p>}
             <button className={styles.primaryButton} onClick={handlePayment} disabled={loading}>
