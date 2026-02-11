@@ -327,7 +327,7 @@ export default function JobDetailPage() {
                     </button>
                   </div>
                   {services.map((service, index) => (
-                    <div key={`${service.name}-${index}`} className={styles.serviceRow}>
+                    <div key={index} className={styles.serviceRow}>
                       <input
                         type="text"
                         className={styles.input}
@@ -335,13 +335,16 @@ export default function JobDetailPage() {
                         value={service.name}
                         onChange={(e) => handleServiceChange(index, 'name', e.target.value)}
                       />
-                      <input
-                        type="number"
-                        className={styles.input}
-                        placeholder="Rate"
-                        value={service.rate}
-                        onChange={(e) => handleServiceChange(index, 'rate', e.target.value)}
-                      />
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+                        <span style={{ fontSize: '16px' }}>$</span>
+                        <input
+                          type="number"
+                          className={styles.input}
+                          placeholder="Rate"
+                          value={service.rate}
+                          onChange={(e) => handleServiceChange(index, 'rate', e.target.value)}
+                        />
+                      </div>
                       {services.length > 1 && (
                         <button
                           type="button"

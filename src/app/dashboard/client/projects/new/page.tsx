@@ -16,7 +16,6 @@ export default function NewClientProjectPage() {
     budgetMax: '',
     deadline: '',
     description: '',
-    referenceLink: '',
   });
   const [attachmentUrls, setAttachmentUrls] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -44,8 +43,7 @@ export default function NewClientProjectPage() {
 
     if (
       containsContactInfo(formData.title) ||
-      containsContactInfo(formData.description) ||
-      containsContactInfo(formData.referenceLink)
+      containsContactInfo(formData.description)
     ) {
       setMessage('Please remove phone numbers or emails from your project details.');
       setLoading(false);
@@ -72,10 +70,6 @@ export default function NewClientProjectPage() {
       return;
     }
 
-    const referenceLinks = formData.referenceLink
-      ? [formData.referenceLink.trim()]
-      : [];
-
     const { error } = await supabase.from('projects').insert({
       client_id: clientProfile.id,
       title: formData.title,
@@ -84,7 +78,7 @@ export default function NewClientProjectPage() {
       budget_max: Number(formData.budgetMax || 0),
       deadline: formData.deadline || null,
       status: 'open',
-      reference_links: [...referenceLinks, ...attachmentUrls],
+      reference_links: attachmentUrls,
     });
 
     if (error) {
@@ -146,13 +140,16 @@ export default function NewClientProjectPage() {
               </div>
               <div className={styles.formGroup}>
                 <label className={styles.label}>Max Budget</label>
-                <input
-                  type="number"
-                  name="budgetMax"
-                  className={styles.input}
-                  value={formData.budgetMax}
-                  onChange={handleChange}
-                />
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{ marginRight: '8px', fontSize: '16px' }}>$</span>
+                  <input
+                    type="number"
+                    name="budgetMax"
+                    className={styles.input}
+                    value={formData.budgetMax}
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
               <div className={styles.formGroupFull}>
                 <label className={styles.label}>Project Description</label>
@@ -170,16 +167,7 @@ export default function NewClientProjectPage() {
                 </p>
               </div>
               <div className={styles.formGroupFull}>
-                <label className={styles.label}>Reference Link (optional)</label>
-                <input
-                  name="referenceLink"
-                  className={styles.input}
-                  value={formData.referenceLink}
-                  onChange={handleChange}
-                  placeholder="https://drive.google.com/..."
-                />
-              </div>
-              <div className={styles.formGroupFull}>
+
                 <label className={styles.label}>Upload Files (optional)</label>
                 <CldUploadWidget
                   uploadPreset="de_artisa_uploads"

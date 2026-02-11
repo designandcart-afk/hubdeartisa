@@ -203,12 +203,6 @@ export default function ClientProjectQuotesPage() {
                       <button className={styles.primaryButton} onClick={() => handleSelect(quote)}>
                         Select Artist
                       </button>
-                      <button
-                        className={styles.ghostButton}
-                        onClick={() => router.push(ROUTES.clientProjectAgreement(projectId))}
-                      >
-                        View Agreement
-                      </button>
                     </div>
                   </article>
                 );
