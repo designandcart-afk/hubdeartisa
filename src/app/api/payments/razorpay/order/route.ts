@@ -32,8 +32,21 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Razorpay keys are missing.' }, { status: 500 });
     }
 
-    // Convert USD to INR (using rate of 83 INR per 1 USD)
-    const USD_TO_INR_RATE = 83;
+    // Fetch real-time USD to INR exchange rate
+    let USD_TO_INR_RATE = 83; // fallback rate
+    try {
+      const rateResponse = await fetch('https://api.exchangerate-api.com/v4/latest/USD', {
+        next: { revalidate: 3600 }, // Cache for 1 hour
+      });
+      if (rateResponse.ok) {
+        const rateData = await rateResponse.json();
+        USD_TO_INR_RATE = rateData.rates.INR || 83;
+      }
+    } catch (error) {
+      console.warn('Failed to fetch live exchange rate, using fallback:', error);
+      // Continue with fallback rate
+    }
+
     const amountInINR = Math.round(normalizedAmount * USD_TO_INR_RATE);
 
     const client = new Razorpay({
@@ -63,6 +76,7 @@ export async function POST(request: Request) {
       orderId: order.id,
       amountUSD: normalizedAmount,
       amountINR: amountInINR,
+      exchangeRate: USD_TO_INR_RATE,
     });
   } catch (error: any) {
     const errorMessage =

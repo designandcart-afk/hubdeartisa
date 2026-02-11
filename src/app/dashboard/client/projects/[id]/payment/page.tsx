@@ -19,6 +19,7 @@ export default function ClientPaymentPage() {
   const projectId = params?.id as string;
   const [amount, setAmount] = useState(0);
   const [amountINR, setAmountINR] = useState(0);
+  const [exchangeRate, setExchangeRate] = useState(83);
   const [projectTitle, setProjectTitle] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -68,9 +69,10 @@ export default function ClientPaymentPage() {
       return;
     }
 
-    // Update INR amount for display
+    // Update INR amount and exchange rate for display
     if (orderData.amountINR) {
       setAmountINR(orderData.amountINR);
+      setExchangeRate(orderData.exchangeRate || 83);
     }
 
     const options = {
@@ -133,12 +135,14 @@ export default function ClientPaymentPage() {
               <p className={styles.label}>Project</p>
               <h2 className={styles.projectTitle}>{projectTitle}</h2>
             </div>
-          <div className={styles.amountBox}>
+            <div className={styles.amountBox}>
               <p>Total due</p>
               <h3>${amount}</h3>
               {amountINR > 0 && (
                 <p style={{ fontSize: '0.9rem', color: '#666', marginTop: '0.5rem' }}>
                   ≈ ₹{amountINR.toLocaleString('en-IN')}
+                  <br />
+                  <small>(Rate: 1 USD = ₹{exchangeRate.toFixed(2)})</small>
                 </p>
               )}
             </div>
