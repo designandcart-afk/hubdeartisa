@@ -16,6 +16,8 @@ export default function ClientAgreementPage() {
   const [checked, setChecked] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [summary, setSummary] = useState<{ title: string; amount: number; timeline: number } | null>(null);
+  const [canView, setCanView] = useState(false);
+  const [loading, setLoading] = useState(true);
   const currencySymbol = '$';
 
   useEffect(() => {
@@ -28,8 +30,12 @@ export default function ClientAgreementPage() {
 
       if (!project?.selected_artist_id || !project.selected_quote_id) {
         setMessage('Select an artist quote first.');
+        setCanView(false);
+        setLoading(false);
         return;
       }
+
+      setCanView(true);
 
       const { data: quote } = await supabase
         .from('project_quotes')
@@ -54,6 +60,7 @@ export default function ClientAgreementPage() {
 
       if (existingAgreement?.id) {
         setAgreementId(existingAgreement.id);
+        setLoading(false);
         return;
       }
 
@@ -67,7 +74,10 @@ export default function ClientAgreementPage() {
         .eq('user_id', userId)
         .single();
 
-      if (!clientProfile?.id) return;
+      if (!clientProfile?.id) {
+        setLoading(false);
+        return;
+      }
 
       const { data: agreement, error } = await supabase
         .from('project_agreements')
@@ -84,12 +94,56 @@ export default function ClientAgreementPage() {
       if (!error && agreement?.id) {
         setAgreementId(agreement.id);
       }
+
+      setLoading(false);
     };
 
     if (projectId) {
       loadAgreement();
     }
   }, [projectId]);
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className={styles.pageHeader}>
+          <div className="container">
+            <h1 className={styles.pageTitle}>Loading...</h1>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!canView) {
+    return (
+      <Layout>
+        <div className={styles.pageHeader}>
+          <div className="container">
+            <button className={styles.backButton} onClick={() => router.back()}>
+              ← Back
+            </button>
+            <h1 className={styles.pageTitle}>Agreement</h1>
+            <p className={styles.pageDescription}>Select an artist before viewing the agreement.</p>
+          </div>
+        </div>
+
+        <section className={styles.section}>
+          <div className="container">
+            <div className={styles.card}>
+              {message && <p className={styles.notice}>{message}</p>}
+              <button
+                className={styles.primaryButton}
+                onClick={() => router.push(ROUTES.clientProjectQuotes(projectId))}
+              >
+                Go to Quotes
+              </button>
+            </div>
+          </div>
+        </section>
+      </Layout>
+    );
+  }
 
   const handleAccept = async () => {
     if (!agreementId) return;
