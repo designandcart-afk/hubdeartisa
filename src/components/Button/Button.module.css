@@ -1,6 +1,6 @@
 .button {
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: 500;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.2s ease;
@@ -10,6 +10,8 @@
   align-items: center;
   justify-content: center;
   box-shadow: var(--shadow-xs);
+  letter-spacing: 0.01em;
+  gap: 0.5rem;
 }
 
 .button:disabled {
@@ -25,9 +27,9 @@
 }
 
 .primary:hover:not(:disabled) {
-  background-color: transparent;
-  color: var(--color-primary);
-  box-shadow: none;
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .secondary {
@@ -37,9 +39,9 @@
 }
 
 .secondary:hover:not(:disabled) {
-  background-color: transparent;
-  color: var(--color-accent);
-  box-shadow: none;
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .outline {
@@ -51,7 +53,14 @@
 
 .outline:hover:not(:disabled) {
   border-color: var(--color-primary);
+  background-color: var(--color-surface);
   box-shadow: var(--shadow-xs);
+  transform: translateY(-1px);
+}
+
+.button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(9, 43, 47, 0.18);
 }
 
 /* Sizes */
